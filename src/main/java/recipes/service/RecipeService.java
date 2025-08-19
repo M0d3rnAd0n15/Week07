@@ -12,12 +12,13 @@ import recipes.dao.RecipeDao;
 import recipes.exception.DBException;
 
 public class RecipeService {
-	private static final String SCHEMA_FILE="recipe_schema.sql";
-	
+	private static final String SCHEMA_FILE="recipes_schema.sql";
+	private static final String DATA_FILE="recipe_data.sql";
 	private RecipeDao recipeDao=new RecipeDao();
 	
 	private void createAndPopulateTables() {
 		loadFromFile(SCHEMA_FILE);
+		loadFromFile(DATA_FILE);
 	}
 
 	private void loadFromFile(String fileName) {
@@ -56,7 +57,7 @@ public class RecipeService {
 	}
 
 	private String replaceMultipleWhitespaceSequencesWithSingleSpace(String content) {
-		return content.replaceAll("\\s+"," ");
+		return content.replaceAll("\\s+", " ");
 	}
 
 	private String removeComments(String content) {
@@ -65,7 +66,7 @@ public class RecipeService {
 		while((commentPos=builder.indexOf("-- ",commentPos))!=-1) {
 			int eolPos=builder.indexOf("\n",commentPos+1);
 			
-			if(eolPos==-1) {
+			if(eolPos== -1) {
 				builder.replace(commentPos, builder.length(),"");
 			}
 			else {
